@@ -1,9 +1,10 @@
 import React from "react";
 import { getUser } from "../../api/users";
 import { useLoaderData, Link } from "react-router-dom";
+import { getTodos } from "../../api/todos";
 
 const User = () => {
-  const user = useLoaderData();
+  const { user, todos } = useLoaderData();
 
   return (
     <div className="user-detail-container">
@@ -95,12 +96,99 @@ const User = () => {
           </div>
         </div>
       </div>
+
+      {/* User Todos Section */}
+      <section className="user-todos-section">
+        <div className="todos-header">
+          <h2 className="todos-title">
+            ✅ {user.name}'s Todos ({todos.length})
+          </h2>
+          <p className="todos-subtitle">
+            Tasks and activities managed by this user
+          </p>
+        </div>
+
+        <div className="todos-stats">
+          <div className="stat-card completed">
+            <span className="stat-number">
+              {todos.filter((todo) => todo.completed).length}
+            </span>
+            <span className="stat-label">Completed</span>
+          </div>
+          <div className="stat-card pending">
+            <span className="stat-number">
+              {todos.filter((todo) => !todo.completed).length}
+            </span>
+            <span className="stat-label">Pending</span>
+          </div>
+          <div className="stat-card total">
+            <span className="stat-number">{todos.length}</span>
+            <span className="stat-label">Total Tasks</span>
+          </div>
+        </div>
+
+        <div className="todos-list">
+          {todos.length > 0 ? (
+            todos.map((todo) => (
+              <div
+                key={todo.id}
+                className={`user-todo-card ${
+                  todo.completed ? "todo-completed" : "todo-pending"
+                }`}
+              >
+                <div className="todo-status-indicator">
+                  <span
+                    className={`status-icon ${
+                      todo.completed ? "completed" : "pending"
+                    }`}
+                  >
+                    {todo.completed ? "✅" : "⏳"}
+                  </span>
+                </div>
+                <div className="todo-content">
+                  <h4
+                    className={`todo-title ${
+                      todo.completed ? "completed" : ""
+                    }`}
+                  >
+                    {todo.title}
+                  </h4>
+                  <div className="todo-meta">
+                    <span className="todo-id">Task #{todo.id}</span>
+                    <span
+                      className={`todo-status-text ${
+                        todo.completed ? "completed" : "pending"
+                      }`}
+                    >
+                      {todo.completed ? "Completed" : "In Progress"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="no-todos">
+              <p className="no-todos-text">
+                🤔 This user hasn't created any todos yet.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 };
 
-function loader({ request: { signal }, params }) {
-  return getUser(params.userId, { signal });
+async function loader({ request: { signal }, params }) {
+  const user = await getUser(params.userId, { signal });
+  const allTodos = await getTodos({ signal });
+
+  // Filter todos for this specific user
+  const todos = allTodos.filter(
+    (todo) => todo.userId === parseInt(params.userId)
+  );
+
+  return { user, todos };
 }
 
 export const userRoute = {

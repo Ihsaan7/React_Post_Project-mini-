@@ -10,8 +10,8 @@ const PostList = () => {
     <div className="post-list-container">
       <h1 className="post-list-title">Posts</h1>
       <div className="post-grid">
-        {posts.map((list) => {
-          return <PostCard key={list.id} {...list} />;
+        {posts.map((post) => {
+          return <PostCard key={post.id} {...post} />;
         })}
       </div>
     </div>

@@ -9,7 +9,7 @@ export function PostCard({ id, title, body }) {
         <p className="post-card-body">{body}</p>
       </div>
       <div className="post-card-footer">
-        <Link to={`/post/${id}`} className="post-card-link">
+        <Link to={`/posts/${id}`} className="post-card-link">
           View Post
         </Link>
       </div>

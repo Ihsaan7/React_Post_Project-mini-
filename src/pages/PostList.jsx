@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { PostCard } from "../components/PostCard";
+import { getPosts } from "../fetch/post";
 
 const PostList = () => {
   const posts = useLoaderData();
@@ -19,9 +20,7 @@ const PostList = () => {
 };
 
 export function loader({ request: { signal } }) {
-  return axios
-    .get("http://localhost:3000/posts", { signal })
-    .then((res) => res.data);
+  return getPosts({ signal });
 }
 
 export const postListRoute = {

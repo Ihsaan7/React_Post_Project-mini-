@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useLoaderData } from "react-router-dom";
 import UserCard from "../components/UserCard";
+import { getUsers } from "../fetch/user";
 
 const UserList = () => {
   const users = useLoaderData();
@@ -19,11 +20,8 @@ const UserList = () => {
 };
 
 function loader({ request: { signal } }) {
-  return axios
-    .get("http://localhost:3000/users", { signal })
-    .then((res) => res.data);
+  return getUsers({ signal });
 }
-
 export const userListRoute = {
   loader,
   element: <UserList />,

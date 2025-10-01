@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, ScrollRestoration } from "react-router-dom";
 
 const RootLayout = () => {
   return (
@@ -21,6 +21,7 @@ const RootLayout = () => {
           </Link>
         </div>
       </nav>
+      <ScrollRestoration />
       <Outlet />
     </>
   );

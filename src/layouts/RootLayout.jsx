@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const RootLayout = () => {
   return (
@@ -10,15 +10,15 @@ const RootLayout = () => {
 
         {/* Links */}
         <div className="flex space-x-6 text-gray-600 font-medium">
-          <a href="#" className="hover:text-blue-500">
+          <Link to={"/posts"} className="hover:text-blue-500">
             Posts
-          </a>
-          <a href="#" className="hover:text-blue-500">
+          </Link>
+          <Link to={"/users"} className="hover:text-blue-500">
             Users
-          </a>
-          <a href="#" className="hover:text-blue-500">
+          </Link>
+          <Link to={"/todos"} className="hover:text-blue-500">
             Todos
-          </a>
+          </Link>
         </div>
       </nav>
       <Outlet />

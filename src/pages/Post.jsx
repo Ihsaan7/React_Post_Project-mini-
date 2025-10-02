@@ -10,9 +10,14 @@ const Post = () => {
   return (
     <div className="post-detail-container">
       <div className="post-detail-header">
-        <Link to="/posts" className="back-link">
-          ← Back to Posts
-        </Link>
+        <div className="flex justify-between">
+          <Link to="/posts" className="back-link">
+            ← Back to Posts
+          </Link>
+          <Link to={`/posts/${post.id}/edit`} className="back-link">
+            Edit Post
+          </Link>
+        </div>
         <div className="post-meta">
           <span className="post-id">Post #{post.id}</span>
           <span className="post-date">📅 Published</span>

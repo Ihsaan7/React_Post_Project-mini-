@@ -11,3 +11,7 @@ export function getPost(id, options) {
 export function createPost(data) {
   return baseApi.post("/posts", data).then((res) => res.data);
 }
+
+export function updatePost(id, data) {
+  return baseApi.put(`/posts/${id}`, data).then((res) => res.data);
+}

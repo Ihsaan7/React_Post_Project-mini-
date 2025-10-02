@@ -69,21 +69,21 @@ const RootLayout = () => {
           {/* Logo */}
           <div className="nav-logo">
             <span className="logo-icon">⚡</span>
-            <span className="logo-text">ReactHub</span>
+            <span className="logo-text">DevHub</span>
           </div>
 
           {/* Links */}
           <div className="nav-links">
             <Link to={"/posts"} className="nav-link">
-              <span className="nav-icon">📝</span>
+              <span className="nav-icon">📄</span>
               <span>Posts</span>
             </Link>
             <Link to={"/users"} className="nav-link">
-              <span className="nav-icon">👥</span>
+              <span className="nav-icon">👤</span>
               <span>Users</span>
             </Link>
             <Link to={"/todos"} className="nav-link">
-              <span className="nav-icon">✅</span>
+              <span className="nav-icon">☑️</span>
               <span>Todos</span>
             </Link>
             <ThemeToggle theme={theme} toggleTheme={toggleTheme} />

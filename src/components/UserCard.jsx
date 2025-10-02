@@ -67,8 +67,8 @@ const UserCard = ({
               <em>{company.catchPhrase}</em>
             </p>
           </div>
-          <Link className="border-2 p-2 w-fit " to={`/users/${id}`}>
-            View Profile
+          <Link to={`/users/${id}`}>
+            <button>View Profile</button>
           </Link>
         </div>
       </div>

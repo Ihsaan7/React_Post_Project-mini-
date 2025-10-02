@@ -33,8 +33,37 @@ const PostList = () => {
         <h1 className="post-list-title" style={{ margin: 0 }}>
           Posts
         </h1>
-        <Link to="/posts/new" className="btn btn-primary">
-          <span>📝</span>
+        <Link
+          to="/posts/new"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "var(--spacing-sm)",
+            padding: "var(--spacing-md) var(--spacing-lg)",
+            backgroundColor: "var(--bg-accent)",
+            color: "white",
+            textDecoration: "none",
+            borderRadius: "var(--radius-lg)",
+            border: "2px solid var(--bg-accent)",
+            fontWeight: "600",
+            fontSize: "1rem",
+            transition: "all 0.2s ease",
+            boxShadow: "var(--shadow-md)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = "var(--bg-accent-hover)";
+            e.target.style.transform = "translateY(-2px)";
+            e.target.style.boxShadow = "var(--shadow-lg)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = "var(--bg-accent)";
+            e.target.style.transform = "translateY(0)";
+            e.target.style.boxShadow = "var(--shadow-md)";
+          }}
+        >
+          <span style={{ fontSize: "1.2rem" }}>✨</span>
           <span>Create New Post</span>
         </Link>
       </div>

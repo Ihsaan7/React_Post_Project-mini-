@@ -34,9 +34,28 @@ const ThemeToggle = ({ theme, toggleTheme }) => {
       className="theme-toggle"
       onClick={toggleTheme}
       aria-label="Toggle theme"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "0.5rem",
+        padding: "0.5rem 0.75rem",
+        backgroundColor: "var(--bg-tertiary)",
+        border: "1px solid var(--border-primary)",
+        borderRadius: "var(--radius-md)",
+        color: "var(--text-primary)",
+        cursor: "pointer",
+        transition: "background-color 0.2s",
+      }}
     >
-      <span className="theme-icon">{theme === "dark" ? "🌙" : "☀️"}</span>
-      <span className="theme-text">{theme === "dark" ? "Dark" : "Light"}</span>
+      <span className="theme-icon" style={{ fontSize: "1rem" }}>
+        {theme === "dark" ? "🌙" : "☀️"}
+      </span>
+      <span
+        className="theme-text"
+        style={{ fontSize: "0.9rem", fontWeight: "500" }}
+      >
+        {theme === "dark" ? "Dark" : "Light"}
+      </span>
     </button>
   );
 };
@@ -64,39 +83,112 @@ const RootLayout = () => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <nav className="navbar">
-        <div className="nav-container">
-          {/* Logo */}
-          <div className="nav-logo">
-            <span className="logo-icon">⚡</span>
-            <span className="logo-text">DevHub</span>
-          </div>
-
-          {/* Links */}
-          <div className="nav-links">
-            <Link to={"/posts"} className="nav-link">
-              <span className="nav-icon">📄</span>
-              <span>Posts</span>
+      <div className="app-container" data-theme={theme}>
+        {isLoading && <Loader />}
+        <header
+          className="app-header"
+          style={{
+            backgroundColor: "var(--bg-secondary)",
+            borderBottom: "1px solid var(--border-primary)",
+            padding: "1rem 0",
+            position: "sticky",
+            top: 0,
+            zIndex: 100,
+          }}
+        >
+          <div
+            className="header-content"
+            style={{
+              maxWidth: "1200px",
+              margin: "0 auto",
+              padding: "0 1rem",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Link
+              to="/"
+              className="app-logo"
+              style={{
+                color: "var(--text-accent)",
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+            >
+              Post Hub
             </Link>
-            <Link to={"/users"} className="nav-link">
-              <span className="nav-icon">👤</span>
-              <span>Users</span>
-            </Link>
-            <Link to={"/todos"} className="nav-link">
-              <span className="nav-icon">☑️</span>
-              <span>Todos</span>
-            </Link>
+            <nav className="app-nav">
+              <ul
+                className="nav-list"
+                style={{
+                  display: "flex",
+                  gap: "1.5rem",
+                  listStyle: "none",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                <li className="nav-item">
+                  <Link
+                    to="/posts"
+                    className="nav-link"
+                    style={{
+                      color: "var(--text-primary)",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                      padding: "0.5rem 0",
+                      borderBottom: "2px solid transparent",
+                      transition: "border-color 0.2s, color 0.2s",
+                    }}
+                  >
+                    Posts
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    to="/users"
+                    className="nav-link"
+                    style={{
+                      color: "var(--text-primary)",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                      padding: "0.5rem 0",
+                      borderBottom: "2px solid transparent",
+                      transition: "border-color 0.2s, color 0.2s",
+                    }}
+                  >
+                    Users
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    to="/todos"
+                    className="nav-link"
+                    style={{
+                      color: "var(--text-primary)",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                      padding: "0.5rem 0",
+                      borderBottom: "2px solid transparent",
+                      transition: "border-color 0.2s, color 0.2s",
+                    }}
+                  >
+                    Todos
+                  </Link>
+                </li>
+              </ul>
+            </nav>
             <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           </div>
-        </div>
-      </nav>
+        </header>
 
-      {isLoading && <Loader />}
-
-      <main className="main-content">
-        <ScrollRestoration />
-        <Outlet />
-      </main>
+        <main className="main-content">
+          <ScrollRestoration />
+          <Outlet />
+        </main>
+      </div>
     </ThemeContext.Provider>
   );
 };

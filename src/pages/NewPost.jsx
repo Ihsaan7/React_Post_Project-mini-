@@ -6,62 +6,123 @@ function NewPost() {
   const users = useLoaderData();
 
   return (
-    <div className="container">
-      <div className="card" style={{ maxWidth: "600px", margin: "0 auto" }}>
-        <div className="card-header">
-          <h1 className="heading-2">Create New Post</h1>
+    <div className="post-detail-container">
+      {/* Header */}
+      <div className="post-detail-header">
+        <Link to="/posts" className="back-link">
+          ← Back to Posts
+        </Link>
+        <div className="post-meta">
+          <span className="post-id">✏️ New Post</span>
+        </div>
+      </div>
+
+      {/* Main Form Card */}
+      <div
+        className="card"
+        style={{
+          maxWidth: "800px",
+          margin: "0 auto",
+          boxShadow: "var(--shadow-lg)",
+          backgroundColor: "var(--bg-secondary)",
+          border: "1px solid var(--border-primary)",
+          borderRadius: "var(--radius-lg)",
+        }}
+      >
+        <div
+          className="card-header"
+          style={{
+            background:
+              "linear-gradient(135deg, var(--bg-accent), var(--bg-accent-hover))",
+            color: "white",
+            borderRadius: "var(--radius-lg) var(--radius-lg) 0 0",
+            padding: "var(--spacing-xl)",
+          }}
+        >
+          <h1
+            style={{
+              margin: 0,
+              fontSize: "1.75rem",
+              fontWeight: "700",
+              display: "flex",
+              alignItems: "center",
+              gap: "var(--spacing-md)",
+            }}
+          >
+            <span style={{ fontSize: "2rem" }}>📝</span>
+            Create New Post
+          </h1>
+          <p
+            style={{
+              margin: "var(--spacing-sm) 0 0 0",
+              opacity: 0.9,
+              fontSize: "1rem",
+            }}
+          >
+            Share your thoughts with the community
+          </p>
         </div>
 
         <Form
-          className="card-content"
           method="post"
           style={{
+            padding: "var(--spacing-xl)",
             display: "flex",
             flexDirection: "column",
-            gap: "var(--spacing-lg)",
+            gap: "var(--spacing-xl)",
           }}
         >
-          <div>
+          {/* Title Field */}
+          <div className="form-group">
             <label
               htmlFor="title"
               style={{
                 display: "block",
-                fontWeight: "500",
-                marginBottom: "var(--spacing-xs)",
+                fontWeight: "600",
+                marginBottom: "var(--spacing-sm)",
                 color: "var(--text-primary)",
+                fontSize: "1.1rem",
               }}
             >
-              Title
+              📝 Post Title
             </label>
             <input
               type="text"
               name="title"
               id="title"
               required
+              className="form-input"
               style={{
                 width: "100%",
-                border: "1px solid var(--border-primary)",
+                border: "2px solid var(--border-primary)",
                 borderRadius: "var(--radius-md)",
-                padding: "var(--spacing-sm) var(--spacing-md)",
+                padding: "var(--spacing-md) var(--spacing-lg)",
                 backgroundColor: "var(--bg-tertiary)",
                 color: "var(--text-primary)",
-                fontSize: "1rem",
+                fontSize: "1.1rem",
+                transition: "border-color 0.2s ease, box-shadow 0.2s ease",
               }}
-              placeholder="Enter post title"
+              placeholder="Enter an engaging title for your post..."
+              onFocus={(e) => (e.target.style.borderColor = "var(--bg-accent)")}
+              onBlur={(e) =>
+                (e.target.style.borderColor = "var(--border-primary)")
+              }
             />
           </div>
 
-          <div>
+          {/* Author Field */}
+          <div className="form-group">
             <label
               htmlFor="userId"
               style={{
                 display: "block",
-                fontWeight: "500",
-                marginBottom: "var(--spacing-xs)",
+                fontWeight: "600",
+                marginBottom: "var(--spacing-sm)",
                 color: "var(--text-primary)",
+                fontSize: "1.1rem",
               }}
             >
-              Author
+              👤 Author
             </label>
             <select
               name="userId"
@@ -69,70 +130,117 @@ function NewPost() {
               required
               style={{
                 width: "100%",
-                border: "1px solid var(--border-primary)",
+                border: "2px solid var(--border-primary)",
                 borderRadius: "var(--radius-md)",
-                padding: "var(--spacing-sm) var(--spacing-md)",
+                padding: "var(--spacing-md) var(--spacing-lg)",
                 backgroundColor: "var(--bg-tertiary)",
                 color: "var(--text-primary)",
-                fontSize: "1rem",
+                fontSize: "1.1rem",
+                transition: "border-color 0.2s ease",
               }}
+              onFocus={(e) => (e.target.style.borderColor = "var(--bg-accent)")}
+              onBlur={(e) =>
+                (e.target.style.borderColor = "var(--border-primary)")
+              }
             >
-              <option value="">Select an author</option>
+              <option 
+                value="" 
+                style={{ 
+                  color: "var(--text-tertiary)",
+                  backgroundColor: "var(--bg-tertiary)"
+                }}
+              >
+                Select the post author
+              </option>
               {users.map((user) => {
                 return (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
+                  <option 
+                    key={user.id} 
+                    value={user.id}
+                    style={{ 
+                      color: "var(--text-primary)",
+                      backgroundColor: "var(--bg-tertiary)"
+                    }}
+                  >
+                    {user.name} (@{user.username})
                   </option>
                 );
               })}
             </select>
           </div>
 
-          <div>
+          {/* Body Field */}
+          <div className="form-group">
             <label
               htmlFor="body"
               style={{
                 display: "block",
-                fontWeight: "500",
-                marginBottom: "var(--spacing-xs)",
+                fontWeight: "600",
+                marginBottom: "var(--spacing-sm)",
                 color: "var(--text-primary)",
+                fontSize: "1.1rem",
               }}
             >
-              Body
+              💬 Post Content
             </label>
             <textarea
               name="body"
               id="body"
-              rows="6"
+              rows="8"
               required
               style={{
                 width: "100%",
-                border: "1px solid var(--border-primary)",
+                border: "2px solid var(--border-primary)",
                 borderRadius: "var(--radius-md)",
-                padding: "var(--spacing-sm) var(--spacing-md)",
+                padding: "var(--spacing-md) var(--spacing-lg)",
                 backgroundColor: "var(--bg-tertiary)",
                 color: "var(--text-primary)",
-                fontSize: "1rem",
+                fontSize: "1.1rem",
                 resize: "vertical",
-                minHeight: "120px",
+                minHeight: "200px",
+                lineHeight: "1.6",
+                transition: "border-color 0.2s ease",
               }}
-              placeholder="Write your post content here..."
+              placeholder="Write your post content here...\n\nShare your thoughts, ideas, or stories with the community."
+              onFocus={(e) => (e.target.style.borderColor = "var(--bg-accent)")}
+              onBlur={(e) =>
+                (e.target.style.borderColor = "var(--border-primary)")
+              }
             />
           </div>
 
+          {/* Action Buttons */}
           <div
             style={{
               display: "flex",
               justifyContent: "flex-end",
               gap: "var(--spacing-md)",
-              paddingTop: "var(--spacing-md)",
+              paddingTop: "var(--spacing-lg)",
+              borderTop: "1px solid var(--border-primary)",
+              marginTop: "var(--spacing-lg)",
             }}
           >
-            <Link to="/posts" className="btn btn-secondary">
-              Cancel
+            <Link
+              to="/posts"
+              className="btn btn-secondary"
+              style={{
+                padding: "var(--spacing-md) var(--spacing-xl)",
+                fontSize: "1rem",
+                fontWeight: "600",
+              }}
+            >
+              ✖ Cancel
             </Link>
-            <button type="submit" className="btn btn-primary">
-              Save Post
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{
+                padding: "var(--spacing-md) var(--spacing-xl)",
+                fontSize: "1rem",
+                fontWeight: "600",
+              }}
+            >
+              💾 Publish Post
             </button>
           </div>
         </Form>

@@ -137,22 +137,30 @@ const PostList = () => {
 };
 
 async function loader({ request: { signal, url } }) {
-  const searchParams = new URL(url).searchParams;
-  const query = searchParams.get("query") || "";
+  try {
+    console.log("PostList loader starting...");
+    const searchParams = new URL(url).searchParams;
+    const query = searchParams.get("query") || "";
 
-  // Get all posts first
-  const allPosts = await getPosts({ signal });
+    console.log("Fetching posts...");
+    // Get all posts first
+    const allPosts = await getPosts({ signal });
+    console.log("Posts fetched:", allPosts?.length || 0);
 
-  // Filter posts client-side if there's a query
-  const posts = query
-    ? allPosts.filter(
-        (post) =>
-          post.title.toLowerCase().includes(query.toLowerCase()) ||
-          post.body.toLowerCase().includes(query.toLowerCase())
-      )
-    : allPosts;
+    // Filter posts client-side if there's a query
+    const posts = query
+      ? allPosts.filter(
+          (post) =>
+            post.title.toLowerCase().includes(query.toLowerCase()) ||
+            post.body.toLowerCase().includes(query.toLowerCase())
+        )
+      : allPosts;
 
-  return { posts, searchParams: { query } };
+    return { posts, searchParams: { query } };
+  } catch (error) {
+    console.error("PostList loader error:", error);
+    throw error;
+  }
 }
 
 export const postListRoute = {

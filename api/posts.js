@@ -1,7 +1,7 @@
 import { baseApi } from "./base";
 
-export function getPosts() {
-  return baseApi.get("/posts").then((res) => res.data);
+export function getPosts(options) {
+  return baseApi.get("/posts", options).then((res) => res.data);
 }
 
 export function getPost(id, options) {

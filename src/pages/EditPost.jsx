@@ -263,7 +263,12 @@ async function action({ request, params: { postId } }) {
 
   try {
     const post = await updatePost(postId, { title, body, userId });
-    return redirect(`/posts/${postId}`);
+    console.log("Post updated successfully:", post);
+    
+    // JSONPlaceholder simulates updates but doesn't persist them
+    // The original post will still be returned when we navigate back
+    // So we redirect to posts list with a success message
+    return redirect(`/posts?updated=true&id=${postId}&title=${encodeURIComponent(title)}`);
   } catch (error) {
     console.error("Error updating post:", error);
     throw new Error("Failed to update post. Please try again.");

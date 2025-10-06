@@ -257,7 +257,11 @@ async function action({ request }) {
 
   try {
     const post = await createPost({ title, body, userId });
-    return redirect(`/posts/${post.id}`);
+    console.log("Post created successfully:", post);
+    
+    // JSONPlaceholder returns fake IDs (like 101) that don't actually exist
+    // So we redirect to the posts list instead of trying to view the non-existent post
+    return redirect(`/posts?created=true&title=${encodeURIComponent(title)}`);
   } catch (error) {
     console.error("Error creating post:", error);
     throw new Error("Failed to create post. Please try again.");

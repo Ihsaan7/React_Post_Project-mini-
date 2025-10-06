@@ -1395,7 +1395,7 @@ body {
   .todo-list-container,
   .post-detail-container,
   .user-detail-container {
-    padding: var(--spacing-lg);
+    padding: var(--spacing-md);
   }
 
   .post-list-title,
@@ -1467,7 +1467,7 @@ body {
   .todo-list-container,
   .post-detail-container,
   .user-detail-container {
-    padding: var(--spacing-md);
+    padding: var(--spacing-sm);
   }
 
   .post-list-title,

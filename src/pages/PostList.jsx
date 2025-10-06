@@ -1,11 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { Form, Link, useLoaderData, useSubmit } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Form, Link, useLoaderData, useSubmit, useSearchParams } from "react-router-dom";
 import { PostCard } from "../components/PostCard";
 import { getPosts } from "../../api/posts";
 
 const PostList = () => {
   const queryRef = useRef();
   const submit = useSubmit();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showNotification, setShowNotification] = useState(null);
   const {
     posts,
     searchParams: { query },
@@ -15,6 +17,45 @@ const PostList = () => {
     queryRef.current.value = query || "";
   }, [query]);
 
+  // Check for success notifications
+  useEffect(() => {
+    const created = searchParams.get('created');
+    const updated = searchParams.get('updated');
+    const title = searchParams.get('title');
+    const id = searchParams.get('id');
+
+    if (created === 'true') {
+      setShowNotification({
+        type: 'success',
+        message: `✅ Post "${title}" created successfully! (Note: This is a demo - posts aren't actually saved)`,
+      });
+      // Clean up URL params
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('created');
+      newParams.delete('title');
+      setSearchParams(newParams, { replace: true });
+    } else if (updated === 'true') {
+      setShowNotification({
+        type: 'success', 
+        message: `✅ Post #${id} "${title}" updated successfully! (Note: This is a demo - changes aren't actually saved)`,
+      });
+      // Clean up URL params
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('updated');
+      newParams.delete('title');
+      newParams.delete('id');
+      setSearchParams(newParams, { replace: true });
+    }
+
+    // Auto-hide notification after 5 seconds
+    if (created === 'true' || updated === 'true') {
+      const timer = setTimeout(() => {
+        setShowNotification(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, setSearchParams]);
+
   const handleClear = () => {
     queryRef.current.value = "";
     submit(queryRef.current.form);
@@ -22,6 +63,45 @@ const PostList = () => {
 
   return (
     <div className="post-list-container">
+      {/* Success Notification */}
+      {showNotification && (
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            right: "20px",
+            zIndex: 1000,
+            backgroundColor: showNotification.type === 'success' ? "#10b981" : "#ef4444",
+            color: "white",
+            padding: "var(--spacing-md) var(--spacing-lg)",
+            borderRadius: "var(--radius-lg)",
+            boxShadow: "var(--shadow-lg)",
+            maxWidth: "400px",
+            fontSize: "0.95rem",
+            fontWeight: "500",
+            animation: "slideIn 0.3s ease-out",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span>{showNotification.message}</span>
+            <button
+              onClick={() => setShowNotification(null)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "white",
+                fontSize: "1.2rem",
+                cursor: "pointer",
+                marginLeft: "var(--spacing-md)",
+                padding: "0",
+              }}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+      
       <div
         style={{
           display: "flex",
